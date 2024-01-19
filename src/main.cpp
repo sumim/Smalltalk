@@ -654,6 +654,12 @@ public:
                 param = 138; break;
             case SDL_SCANCODE_CAPSLOCK: param = 139; break;
             case SDL_SCANCODE_DELETE:   param = 127; break;
+            case SDL_SCANCODE_LSHIFT: param = 136; break;
+            case SDL_SCANCODE_RSHIFT: param = 137; break;
+            case SDL_SCANCODE_LEFT: param = 95; break;
+            case SDL_SCANCODE_UP: param = 94; break;
+            case SDL_SCANCODE_F1: param = 10; break; // Blank-top/Paste
+            case SDL_SCANCODE_F2: param = 140; break; // BS2
             default:
                 if (key.keysym.sym > 127)
                     return;  // Must be ascii
@@ -668,8 +674,8 @@ public:
                 if (key.keysym.mod & (KMOD_LGUI|KMOD_RGUI))
                     return; // Ignore
 
-                if (key.keysym.mod & (KMOD_LSHIFT|KMOD_RSHIFT))
-                    param = shift_map[param];
+                /* if (key.keysym.mod & (KMOD_LSHIFT | KMOD_RSHIFT))
+                    param = shift_map[param]; */
                 
                 /*
                  For a decoded keyboard, the full shifted and “controlled" ASCII should be
@@ -758,7 +764,10 @@ public:
                         smalltalk_button = RedButton;
                     break;
                 case SDL_BUTTON_RIGHT:
-                    smalltalk_button = YellowButton;
+                    if (mods & BlueFlags)
+                        smalltalk_button = BlueButton;
+                    else
+                        smalltalk_button = YellowButton;
                     break;
                 default:
                     return;  /* Don't care about this button */
